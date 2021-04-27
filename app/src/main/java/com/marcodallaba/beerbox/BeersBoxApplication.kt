@@ -1,12 +1,24 @@
 package com.marcodallaba.beerbox
 
-import com.marcodallaba.beerbox.di.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import android.app.Application
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.fragment.koin.fragmentFactory
+import org.koin.core.KoinExperimentalAPI
+import org.koin.core.context.startKoin
 
-class BeersBoxApplication : DaggerApplication() {
+@KoinExperimentalAPI
+class BeersBoxApplication : Application() {
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
-        DaggerAppComponent.builder().application(this).build()
+    override fun onCreate() {
+        super.onCreate()
+        // Start Koin
+        startKoin{
+            androidLogger()
+            androidContext(this@BeersBoxApplication)
+            fragmentFactory()
+            modules(appModule)
+        }
+    }
 
 }

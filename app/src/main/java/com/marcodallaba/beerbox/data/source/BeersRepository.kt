@@ -3,14 +3,11 @@ package com.marcodallaba.beerbox.data.source
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.marcodallaba.beerbox.data.Beer
-import com.marcodallaba.beerbox.di.qualifier.LocalDataSource
-import com.marcodallaba.beerbox.di.qualifier.RemoteDataSource
 import io.reactivex.disposables.CompositeDisposable
-import javax.inject.Inject
 
-class BeersRepository @Inject constructor(
-    @RemoteDataSource private val beersRemoteDataSource: BeersDataSource,
-    @LocalDataSource private val beersLocalDataSource: BeersDataSource
+class BeersRepository constructor(
+    private val beersRemoteDataSource: BeersDataSource,
+    private val beersLocalDataSource: BeersDataSource
 ) {
 
     private val compositeDisposable = CompositeDisposable()

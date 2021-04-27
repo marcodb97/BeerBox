@@ -5,9 +5,8 @@ import com.marcodallaba.beerbox.data.Beer
 import com.marcodallaba.beerbox.data.source.BeersDataSource
 import com.marcodallaba.beerbox.util.BeerType
 import io.reactivex.Single
-import javax.inject.Inject
 
-class BeersRemoteDataSource @Inject constructor(private val punkServices: PunkServices) :
+class BeersRemoteDataSource constructor(private val punkServices: PunkServices) :
     BeersDataSource {
 
     override fun insertBeers(beers: List<Beer>) {}

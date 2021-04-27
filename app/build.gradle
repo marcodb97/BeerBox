@@ -67,12 +67,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.6.2"
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.6.1"
 
-    //Dagger
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+    //Koin
+    implementation "io.insert-koin:koin-android:$koinVersion"
 
     //Room
     implementation "androidx.room:room-runtime:$roomVersion"

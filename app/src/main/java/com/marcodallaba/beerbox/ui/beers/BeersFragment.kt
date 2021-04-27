@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.SearchView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,24 +16,20 @@ import com.marcodallaba.beerbox.R
 import com.marcodallaba.beerbox.ui.beer.BeerBottomSheetDialogFragment
 import com.marcodallaba.beerbox.util.BeerType
 import com.marcodallaba.beerbox.util.BeerTypeId
-import com.marcodallaba.beerbox.util.ViewModelsFactory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.marcodallaba.beerbox.databinding.FragmentBeersBinding
 import com.marcodallaba.beerbox.util.bindToLifecycle
-import dagger.android.support.DaggerFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class BeersFragment : DaggerFragment(), SearchView.OnQueryTextListener, SearchView.OnCloseListener {
+class BeersFragment : Fragment(), SearchView.OnQueryTextListener, SearchView.OnCloseListener {
 
     private lateinit var binding: FragmentBeersBinding
 
-    @Inject
-    lateinit var viewModelsFactory: ViewModelsFactory
-    private var beerViewModel: BeersViewModel? = null
+    private val beerViewModel: BeersViewModel by viewModel()
     private val layoutManager = LinearLayoutManager(context)
     private var beersAdapter: BeersAdapter = BeersAdapter()
     private val queryPublisher = PublishSubject.create<String>()
@@ -72,19 +68,17 @@ class BeersFragment : DaggerFragment(), SearchView.OnQueryTextListener, SearchVi
             .getIdentifier("android:id/search_close_btn", null, null)
         binding.searchView.findViewById<View>(searchCloseButtonId).setOnClickListener { onClose() }
 
-        beerViewModel = ViewModelProvider(this, viewModelsFactory).get(BeersViewModel::class.java)
-
-        beerViewModel?.beers?.observe(viewLifecycleOwner, { updateBeers(it) })
+        beerViewModel.beers.observe(viewLifecycleOwner, { updateBeers(it) })
 
         binding.recyclerView.addOnScrollListener(ScrollListener(beerViewModel))
         beersAdapter.onMoreInfo.subscribe { openBeerBottomSheet(it) }.bindToLifecycle(this)
 
         queryPublisher.debounce(300, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { beerViewModel?.onQuery(it) }
+            .subscribe { beerViewModel.onQuery(it) }
             .bindToLifecycle(this)
 
-        addFilters(beerViewModel?.beerTypes)
+        addFilters(beerViewModel.beerTypes)
     }
 
     override fun onClose(): Boolean {
@@ -110,9 +104,9 @@ class BeersFragment : DaggerFragment(), SearchView.OnQueryTextListener, SearchVi
 
     private fun onChipChanged(view: CompoundButton, isChecked: Boolean) {
         if (isChecked)
-            beerViewModel?.addFilter(view.tag as BeerType)
+            beerViewModel.addFilter(view.tag as BeerType)
         else
-            beerViewModel?.removeFilter(view.tag as BeerType)
+            beerViewModel.removeFilter(view.tag as BeerType)
     }
 
     private fun openBeerBottomSheet(beerItem: UIBeerItem) {

@@ -7,10 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.marcodallaba.beerbox.data.source.BeersRepository
 import com.marcodallaba.beerbox.util.BeerType
 import com.marcodallaba.beerbox.util.asUIModel
-import javax.inject.Inject
 
-
-class BeersViewModel @Inject constructor(private val beersRepository: BeersRepository) : ViewModel() {
+class BeersViewModel constructor(private val beersRepository: BeersRepository) : ViewModel() {
 
 
     private val currentFilter: MutableLiveData<Pair<String, MutableSet<BeerType>>> =

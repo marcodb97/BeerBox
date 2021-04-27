@@ -4,9 +4,8 @@ import com.marcodallaba.beerbox.data.Beer
 import com.marcodallaba.beerbox.data.source.BeersDataSource
 import com.marcodallaba.beerbox.util.BeerType
 import io.reactivex.Single
-import javax.inject.Inject
 
-class BeersLocalDataSource @Inject constructor(private val beersDao: BeersDao) : BeersDataSource {
+class BeersLocalDataSource constructor(private val beersDao: BeersDao) : BeersDataSource {
 
     override fun getBeers(page: Int, perPage: Int): Single<List<Beer>>? = null
 
