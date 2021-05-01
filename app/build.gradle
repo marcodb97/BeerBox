@@ -63,9 +63,9 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     //Retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.7.2"
-    implementation "com.squareup.retrofit2:converter-gson:2.6.2"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.6.1"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$converterGsonVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$adapterRxjava2Version"
 
     //Koin
     implementation "io.insert-koin:koin-android:$koinVersion"
